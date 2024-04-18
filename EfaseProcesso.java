@@ -1,8 +1,6 @@
-package escritorio_advocacia;
+package processo;
 
-public enum EfaseProcesso {
-	INICIAL,
-	INSTRUCAO,
-	DECISAO,
-	RECURSO
+
+public enum EFaseProcesso {
+	INICIAL, INSTRUCAO, DECISAO, RECURSO
 }

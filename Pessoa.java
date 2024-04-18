@@ -1,11 +1,13 @@
-package escritorio_advocacia;
+package processo;
 
 public abstract class Pessoa {
-	private final String nome;
-	private final String email;
-	private final String telefone;
 
-	public Pessoa(String nome, String email, String telefone) {
+	private String nome;
+	private String email;
+	private long telefone;
+
+	public Pessoa(String nome, String email, long telefone) {
+		super();
 		this.nome = nome;
 		this.email = email;
 		this.telefone = telefone;
@@ -15,12 +17,24 @@ public abstract class Pessoa {
 		return nome;
 	}
 
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public String getEmail() {
 		return email;
 	}
 
-	public String getTelefone() {
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public long getTelefone() {
 		return telefone;
+	}
+
+	public void setTelefone(long telefone) {
+		this.telefone = telefone;
 	}
 
 	public abstract long getCadastroRF();

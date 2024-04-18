@@ -1,11 +1,13 @@
-package escritorio_advocacia;
+package processo;
 
 public class Tribunal {
+
 	private final String sigla;
 	private final String descricao;
 	private final String secao;
 
 	public Tribunal(String sigla, String descricao, String secao) {
+		super();
 		this.sigla = sigla;
 		this.descricao = descricao;
 		this.secao = secao;

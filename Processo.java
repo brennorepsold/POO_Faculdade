@@ -1,46 +1,44 @@
-package escritorio_advocacia;
+package processo;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
 public class Processo {
+
 	private final long numero;
 	private final Date dataAbertura;
-	private EfaseProcesso fase;
 
-	private Tribunal tribunal;
+	private EFaseProcesso fase;
+
 	private Pessoa cliente;
 	private Pessoa parteContraria;
+
+	private Tribunal tribunal;
 
 	private ArrayList<Audiencia> audiencias = new ArrayList<>();
 	private ArrayList<Despesa> custas = new ArrayList<>();
 
-	public Processo(long numero, Date dataAbertura, Tribunal tribunal, Pessoa cliente, Pessoa parteContraria) {
+	public Processo(long numero, Date dataAbertura, Pessoa cliente, Pessoa parteContraria, Tribunal tribunal) {
+		super();
+
 		this.numero = numero;
 		this.dataAbertura = dataAbertura;
 
-		this.fase = EfaseProcesso.INICIAL;
+		this.fase = EFaseProcesso.INICIAL;
 
-		this.tribunal = tribunal;
 		this.cliente = cliente;
 		this.parteContraria = parteContraria;
 
+		this.tribunal = tribunal;
 	}
 
-	public EfaseProcesso getFase() {
+	public EFaseProcesso getFase() {
 		return fase;
 	}
 
-	public void setFase(EfaseProcesso fase) {
+	public void setFase(EFaseProcesso fase) {
 		this.fase = fase;
-	}
-
-	public Tribunal getTribunal() {
-		return tribunal;
-	}
-
-	public void setTribunal(Tribunal tribunal) {
-		this.tribunal = tribunal;
 	}
 
 	public Pessoa getCliente() {
@@ -59,6 +57,14 @@ public class Processo {
 		this.parteContraria = parteContraria;
 	}
 
+	public Tribunal getTribunal() {
+		return tribunal;
+	}
+
+	public void setTribunal(Tribunal tribunal) {
+		this.tribunal = tribunal;
+	}
+
 	public long getNumero() {
 		return numero;
 	}
@@ -67,44 +73,85 @@ public class Processo {
 		return dataAbertura;
 	}
 
-	public String getAudiencias() {
-		StringBuilder sb = new StringBuilder();
-		for (Audiencia x : audiencias) {
-			sb.append("/n");
-			sb.append(x.getRecomendacao());
-		}
-		return sb.toString();
-	}
-
 	public void addAudiencia(Date data, String recomendacao, Advogado advogado) {
 		audiencias.add(new Audiencia(data, recomendacao, advogado));
 	}
-
-	public String getCustas() {
+	
+	public void addCusta(Date data, String descricao, double valor) {
+		custas.add(new Despesa(data, descricao, valor));
+	}
+	
+	public String getAudiencias() {
+		
 		StringBuilder sb = new StringBuilder();
-		for (Despesa x : custas) {
-			sb.append("/n");
-			sb.append(x.getDescricao());
+		
+		for (Audiencia audiencia : audiencias) {
+			sb.append("\n");
+			sb.append(audiencia.toString());
 		}
+		
 		return sb.toString();
 	}
-
-	public void addCustas(Date data, String recomendacao, double valor) {
-		custas.add(new Despesa(data, recomendacao, valor));
-	}
-
-	public double getTotalCustas() {
-		double total = 0;
-		for (Despesa x : custas) {
-			total += x.getValor();
+	
+	public String getCustas() {
+		
+		StringBuilder sb = new StringBuilder();
+		
+		for (Despesa custa : custas) {
+			sb.append("\n");
+			sb.append(custa.toString());
 		}
-		return total;
-
+		
+		return sb.toString();
 	}
+	
+	public double getTotalCustas() {
 
+		double total = 0.0;
+		
+		for (Despesa custa : custas) {
+			total += custa.getValor();
+		}
+		
+		return total;
+	}
+	
+	public String listar() {
+		
+		StringBuilder sb = new StringBuilder();
+
+		sb.append(this.toString());
+		
+		sb.append("\n\nAudiências");
+		sb.append(this.getAudiencias());
+
+		sb.append("\n\nCustas do Processo");
+		sb.append(this.getCustas());
+		
+		sb.append(String.format("\n\nTotal das custas: %.2f", this.getTotalCustas()));
+		
+		return sb.toString();
+	}
+	
 	@Override
 	public String toString() {
-		return " ";
-	}
+		
+		StringBuilder sb = new StringBuilder();
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MM-yyyy");
 
+		sb.append("\nNúmero do Processo: " + getNumero());
+		sb.append("\nData de Abertura  : " + sdf.format(getDataAbertura()));
+		sb.append("\nFase do Processo  : " + getFase());
+		
+		sb.append("\n");
+		sb.append("\nCliente        : " + getCliente().getNome());
+		sb.append("\nParte Contraria: " + getParteContraria().getNome());
+		
+		sb.append("\n");
+		sb.append("\nTribunal: " + getTribunal().getDescricao());		
+		
+		return sb.toString();
+	}
+	
 }
